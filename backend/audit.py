@@ -1,31 +1,25 @@
-#__author__:Administrator
-#date:2017/2/28
-
-import re
-
-class AuditLogHandLer(object):
-    '''分析 audit log 日志'''
+class AuditLogHandler(object):
+    '''分析audit log日志'''
 
     def __init__(self,log_file):
-
         self.log_file_obj = self._get_file(log_file)
+
 
     def _get_file(self,log_file):
 
         return open(log_file)
 
     def parse(self):
-
         cmd_list = []
         cmd_str = ''
-        catch_write5_flag = False
-
+        catch_write5_flag = False #for tab complication
         for line in self.log_file_obj:
+            #print(line.split())
             line = line.split()
             try:
                 pid,time_clock,io_call,char = line[0:4]
                 if io_call.startswith('read(4'):
-                    if char == '"\\177",': # 回退
+                    if char == '"\\177",':#回退
                         char = '[1<-del]'
                     if char == '"\\33OB",': #vim中下箭头
                         char = '[down 1]'
@@ -57,50 +51,25 @@ class AuditLogHandLer(object):
                         catch_write5_flag = True
                         continue
                     if char == '"\\r",':
-                        cmd_list.append([time_clock, cmd_str])
+                        cmd_list.append([time_clock,cmd_str])
                         cmd_str = ''  # 重置
-                    if char == '"': # space
+                    if char == '"':#space
                         cmd_str += ' '
 
-                if catch_write5_flag:
+                if catch_write5_flag: #to catch tab completion
                     if io_call.startswith('write(5'):
-                        if io_call == '"\7,': # 空键
+                        if io_call == '"\7",': #空键，不是空格，是回退不了就是这个键
                             pass
                         else:
                             cmd_str += char.strip('"",')
-
                         catch_write5_flag = False
-
             except ValueError as e:
-                print("\033[031;1m会话日志记录错误,请联系您的管理员,\033[0m", e)
+                print("\033[031;1mSession log record err,please contact your IT admin,\033[0m",e)
 
-
-
-
+        #print(cmd_list)
+        # for cmd in cmd_list:
+        #    print(cmd)
         return cmd_list
-
-
-if __name__ == '__main__':
-    parser = AuditLogHandLer('ssh.log')
+if __name__ == "__main__":
+    parser = AuditLogHandler('ssh.log')
     parser.parse()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

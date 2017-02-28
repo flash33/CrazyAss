@@ -85,7 +85,8 @@ class UserPortal(object):
                                 selected_bindhost = select_hosts[user_host_input]
                                 print("登陆该主机:",selected_bindhost.host.hostname)
                                 md5_str = hashlib.md5(str(time.time()).encode()).hexdigest()
-                                login_cmd = 'sshpass  -p {password} /usr/local/openssh7/bin/ssh {user}@{ip_addr}  -o "StrictHostKeyChecking no -Z {md5_str}"'.format(
+
+                                login_cmd = 'sshpass  -p {password} /usr/local/openssh7/bin/ssh {user}@{ip_addr}  -o "StrictHostKeyChecking no" -Z {md5_str}'.format(
                                     password=selected_bindhost.host_user.password,
                                     user=selected_bindhost.host_user.username,
                                     ip_addr=selected_bindhost.host.ip_addr,
