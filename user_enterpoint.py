@@ -93,7 +93,16 @@ class UserPortal(object):
                                     md5_str=md5_str)
 
                                 print(login_cmd)
+
+                                session_tracker_script = settings.SESSION_TRACKER_SCRIPT
+                                tracker_obj = subprocess.Popen("%s %s" %(session_tracker_script,md5_str),shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=settings.BASE_DIR)
+
+                                # 创建日志数据
+                                models.SessionLog.objects.create(user=self.user,bind_host=selected_bindhost,session_tag=md5_str)
+
+
                                 ssh_instance = subprocess.run(login_cmd, shell=True)
+                                print("session tracekr",tracker_obj.stdout.read(),tracker_obj.stderr.read().decode())
 
                         if user_host_input == 'q':
                             break
@@ -102,6 +111,7 @@ if __name__ == '__main__':
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "CrazyAss.settings")
     import django
     django.setup()
+    from django.conf import settings
     from audit import models
     portal = UserPortal()
     portal.interactive()

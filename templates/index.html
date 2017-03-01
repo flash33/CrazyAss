@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+    <h1>hello</h1>
+{% endblock %}
+
+
+
+<!--右侧显示菜单内容-->
+{% block ul %}
+
+<ul id="mainnav-menu" class="list-group">
+
+    <li class="active-link">
+        <a href="#">
+            <i class="fa fa-plane"></i>
+            <span class="menu-title">首页</span>
+        </a>
+    </li>
+    <li class="active-link">
+        <a href="#">
+            <i class="fa fa-dashboard"></i>
+            <span class="menu-title">
+                <strong>主机</strong>
+            </span>
+        </a>
+    </li>
+    <li class="active-sub">
+        <a href="#">
+            <i class="fa fa-th"></i>
+            <span class="menu-title">批量</span>
+            <i class="arrow"></i>
+        </a>
+
+        <!--Submenu-->
+        <ul class="collapse in">
+            <li><a href="#">批量命令</a></li>
+            <li class="active-link"><a href="#">文件分发</a></li>
+            <li><a href="#">任务日志</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="#">
+            <i class="fa fa-taxi"></i>
+            <span class="menu-title">
+                <strong>操作任务</strong>
+            </span>
+            <i class="arrow"></i>
+        </a>
+
+        <!--Submenu-->
+        <ul class="collapse">
+            <li><a href="#">按主机</a></li>
+
+        </ul>
+    </li>
+
+    <li class="active-link">
+        <a href="#">
+            <i class="fa fa-plane"></i>
+            <span class="menu-title">定时任务</span>
+        </a>
+    </li>
+
+    <li class="active-link">
+        <a href="#">
+            <i class="fa fa-plane"></i>
+            <span class="menu-title">配置</span>
+        </a>
+    </li>
+</ul>
+
+{% endblock %}

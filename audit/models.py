@@ -134,3 +134,18 @@ class BindHost(models.Model):
     class Meta:
         unique_together = ('host', 'host_user')
 
+
+
+class SessionLog(models.Model):
+    '''存储 sessiong 日志'''
+
+    user = models.ForeignKey('UserProfile')
+    bind_host = models.ForeignKey('BindHost')
+    session_tag = models.CharField(max_length=128,unique=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.session_tag
+
+
+
