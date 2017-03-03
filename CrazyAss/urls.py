@@ -19,5 +19,7 @@ from audit import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^index/', views.index),
+    url(r'^login/', views.login), # 登陆界面
+    url(r'^index/', views.index), # 登陆后跳到的界面
+    url(r'^logout/', views.logout), # 退出
 ]
